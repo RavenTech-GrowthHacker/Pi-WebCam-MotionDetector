@@ -19,7 +19,7 @@ class MotionDetectorInstantaneous():
             self.capture = cv.VideoCapture(0)
             # otherwise, we are reading from a video file
         else:
-            self.capture = cv.VideoCapture(args["video"])
+            self.capture = cv.CreateFileCapture("rtmp://192.168.128.63/flvplayback/fuckyou")
 
         self.frame = cv.QueryFrame(self.capture) #Take a frame to init recorder
         if doRecord:
