@@ -11,7 +11,7 @@ import datetime
 import imutils
 import json
 import time
-import cv2.cv as cv
+import cv2
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()

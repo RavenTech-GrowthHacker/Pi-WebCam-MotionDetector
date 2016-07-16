@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+push_everything.sh
 
 # C extensions
 *.so

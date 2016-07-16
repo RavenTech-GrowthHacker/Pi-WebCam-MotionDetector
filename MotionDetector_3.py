@@ -6,6 +6,7 @@ from picamera import PiCamera
 from datetime import datetime
 import time
 import cv2.cv as cv
+import cv2
 
 class MotionDetector():
 
@@ -20,17 +21,18 @@ class MotionDetector():
         self.camera.framerate = 16
         self.rawCapture = PiRGBArray(self.camera, size=(self.width, self.height))
 
-        self.frame1gray = cv.CreateMat(self.height, self.width, cv.CV_8U) #Gray frame at t-1
+        self.frame1gray = None
+            # cv.CreateMat(self.height, self.width, cv.CV_8U) #Gray frame at t-1
         # cv.CvtColor(self.frame, self.frame1gray, cv.CV_RGB2GRAY)
 
         #Will hold the thresholded result
         self.res = cv.CreateMat(self.height, self.width, cv.CV_8U)
 
-        self.frame2gray = cv.CreateMat(self.height, self.width, cv.CV_8U) #Gray frame at t
+        self.frame2gray = None # cv.CreateMat(self.height, self.width, cv.CV_8U) #Gray frame at t
 
         self.nb_pixels = self.width * self.height
         self.threshold = threshold
-        self.isFirst = False
+        self.isFirst = True
 
         cv.NamedWindow("Image")
 
@@ -41,7 +43,8 @@ class MotionDetector():
             instant = time.time() #Get timestamp o the fram
 
             if self.isFirst:
-                cv.CvtColor(curframe, self.frame1gray, cv.CV_RGB2GRAY)
+                self.frame1gray = cv2.cvtColor(curframe, cv2.COLOR_BGR2GRAY)
+                self.isFirst = False
             else:
                 self.processImage(curframe) #Process the image
 
@@ -61,7 +64,7 @@ class MotionDetector():
                     break
 
     def processImage(self, frame):
-        cv.CvtColor(frame, self.frame2gray, cv.CV_RGB2GRAY)
+        self.frame2gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         #Absdiff to get the difference between to the frames
         cv.AbsDiff(self.frame1gray, self.frame2gray, self.res)
