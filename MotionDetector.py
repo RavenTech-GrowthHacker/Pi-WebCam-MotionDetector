@@ -76,7 +76,6 @@ class MotionDetectorInstantaneous():
 
         # self.redraw = cv.CreateImage((self.frame.width, self.frame.height),8,3)
 
-        cv.
         cv.CvtColor(frame, self.frame2gray, cv.CV_RGB2GRAY)
         
         # #Absdiff to get the difference between to the frames
